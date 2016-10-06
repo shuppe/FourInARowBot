@@ -11,6 +11,9 @@ public interface MoveSolver {
      * @param field: current playing field
      * @return Column where to drop the disc
      */
+    static final int EASY = 2;
+    static final int MEDIUM = 3;
+    static final int HARD = 4;
 
     int nextMove(int player, int level, Field field);
 

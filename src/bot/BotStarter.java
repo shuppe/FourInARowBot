@@ -30,7 +30,7 @@ public class BotStarter {
      private MoveSolver solver;
 
     public BotStarter() {
-        this.solver = new RandomSolver();
+        this.solver = new MiniMaxSolver();
     }
 
  	public static void main(String[] args) {
