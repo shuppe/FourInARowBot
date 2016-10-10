@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="fourinarowbot" default="all">
+
+
+    <property file="DrBannerBot.properties"/>
+    <!-- Uncomment the following property if no tests compilation is needed -->
+    <!--
+    <property name="skip.tests" value="true"/>
+     -->
+
+    <!-- Compiler options -->
+
+    <property name="compiler.debug" value="on"/>
+    <property name="compiler.generate.no.warnings" value="off"/>
+    <property name="compiler.args" value=""/>
+    <property name="compiler.max.memory" value="700m"/>
+    <patternset id="ignored.files">
+        <exclude name="**/*.hprof/**"/>
+        <exclude name="**/*.pyc/**"/>
+        <exclude name="**/*.pyo/**"/>
+        <exclude name="**/*.rbc/**"/>
+        <exclude name="**/*.yarb/**"/>
+        <exclude name="**/*~/**"/>
+        <exclude name="**/.DS_Store/**"/>
+        <exclude name="**/.git/**"/>
+        <exclude name="**/.hg/**"/>
+        <exclude name="**/.svn/**"/>
+        <exclude name="**/CVS/**"/>
+        <exclude name="**/RCS/**"/>
+        <exclude name="**/SCCS/**"/>
+        <exclude name="**/__pycache__/**"/>
+        <exclude name="**/_svn/**"/>
+        <exclude name="**/rcs/**"/>
+        <exclude name="**/vssver.scc/**"/>
+        <exclude name="**/vssver2.scc/**"/>
+    </patternset>
+    <patternset id="library.patterns">
+        <include name="*.war"/>
+        <include name="*.swc"/>
+        <include name="*.apk"/>
+        <include name="*.zip"/>
+        <include name="*.egg"/>
+        <include name="*.ane"/>
+        <include name="*.jar"/>
+        <include name="*.ear"/>
+    </patternset>
+    <patternset id="compiler.resources">
+        <exclude name="**/?*.java"/>
+        <exclude name="**/?*.form"/>
+        <exclude name="**/?*.class"/>
+        <exclude name="**/?*.groovy"/>
+        <exclude name="**/?*.scala"/>
+        <exclude name="**/?*.flex"/>
+        <exclude name="**/?*.kt"/>
+        <exclude name="**/?*.clj"/>
+        <exclude name="**/?*.aj"/>
+    </patternset>
+
+    <!-- JDK definitions -->
+
+    <property name="jdk.bin.1.6" value="${jdk.home.1.6}/bin"/>
+    <path id="jdk.classpath.1.6">
+        <fileset dir="${jdk.home.1.6}">
+            <include name="../Classes/charsets.jar"/>
+            <include name="../Classes/classes.jar"/>
+            <include name="../Classes/jsse.jar"/>
+            <include name="../Classes/ui.jar"/>
+            <include name="lib/deploy.jar"/>
+            <include name="lib/dt.jar"/>
+            <include name="lib/ext/apple_provider.jar"/>
+            <include name="lib/ext/dnsns.jar"/>
+            <include name="lib/ext/localedata.jar"/>
+            <include name="lib/ext/sunjce_provider.jar"/>
+            <include name="lib/ext/sunpkcs11.jar"/>
+            <include name="lib/javaws.jar"/>
+            <include name="lib/jce.jar"/>
+            <include name="lib/jconsole.jar"/>
+            <include name="lib/management-agent.jar"/>
+            <include name="lib/plugin.jar"/>
+            <include name="lib/sa-jdi.jar"/>
+        </fileset>
+    </path>
+
+    <property name="project.jdk.home" value="${jdk.home.1.6}"/>
+    <property name="project.jdk.bin" value="${jdk.bin.1.6}"/>
+    <property name="project.jdk.classpath" value="jdk.classpath.1.6"/>
+
+
+    <!-- Global Libraries -->
+    <!-- Register Custom Compiler Taskdefs -->
+    <property name="javac2.home" value="${idea.home}/lib"/>
+    <path id="javac2.classpath">
+        <pathelement location="${javac2.home}/javac2.jar"/>
+        <pathelement location="${javac2.home}/jdom.jar"/>
+        <pathelement location="${javac2.home}/asm-all.jar"/>
+        <pathelement location="${javac2.home}/jgoodies-forms.jar"/>
+    </path>
+    <target name="register.custom.compilers">
+        <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
+        <taskdef name="instrumentIdeaExtensions" classname="com.intellij.ant.InstrumentIdeaExtensions"
+                 classpathref="javac2.classpath"/>
+    </target>
+
+    <!-- Modules -->
+
+
+    <!-- Module FourInARowBot -->
+
+    <dirname property="module.fourinarowbot.basedir" file="${ant.file}"/>
+
+
+    <property name="module.jdk.home.fourinarowbot" value="${project.jdk.home}"/>
+    <property name="module.jdk.bin.fourinarowbot" value="${project.jdk.bin}"/>
+    <property name="module.jdk.classpath.fourinarowbot" value="${project.jdk.classpath}"/>
+
+    <property name="compiler.args.fourinarowbot" value="-encoding UTF-8 -source 1.6 -target 1.6 ${compiler.args}"/>
+
+    <property name="fourinarowbot.output.dir" value="${module.fourinarowbot.basedir}/bin/production/FourInARowBot"/>
+    <property name="fourinarowbot.testoutput.dir" value="${module.fourinarowbot.basedir}/bin/test/FourInARowBot"/>
+    <property name="fourinarowbot.bot.dir" value="${module.fourinarowbot.basedir}/src"/>
+    <property name="fourinarowbot.bot.zip" value="${fourinarowbot.output.dir}/DrBannerBotAuto.zip"/>
+
+    <path id="fourinarowbot.module.bootclasspath">
+        <!-- Paths to be included in compilation bootclasspath -->
+    </path>
+
+    <path id="fourinarowbot.module.production.classpath">
+        <path refid="${module.jdk.classpath.fourinarowbot}"/>
+    </path>
+
+    <path id="fourinarowbot.runtime.production.module.classpath">
+        <pathelement location="${fourinarowbot.output.dir}"/>
+    </path>
+
+    <path id="fourinarowbot.module.classpath">
+        <path refid="${module.jdk.classpath.fourinarowbot}"/>
+        <pathelement location="${fourinarowbot.output.dir}"/>
+    </path>
+
+    <path id="fourinarowbot.runtime.module.classpath">
+        <pathelement location="${fourinarowbot.testoutput.dir}"/>
+        <pathelement location="${fourinarowbot.output.dir}"/>
+    </path>
+
+
+    <patternset id="excluded.from.module.fourinarowbot">
+        <patternset refid="ignored.files"/>
+    </patternset>
+
+    <patternset id="excluded.from.compilation.fourinarowbot">
+        <patternset refid="excluded.from.module.fourinarowbot"/>
+    </patternset>
+
+    <path id="fourinarowbot.module.sourcepath">
+        <dirset dir="${module.fourinarowbot.basedir}">
+            <include name="src"/>
+        </dirset>
+    </path>
+
+    <target name="compile.module.fourinarowbot"
+            depends="compile.module.fourinarowbot.production,compile.module.fourinarowbot.tests"
+            description="Compile module FourInARowBot"/>
+
+    <target name="compile.module.fourinarowbot.production" depends="register.custom.compilers"
+            description="Compile module FourInARowBot; production classes">
+        <mkdir dir="${fourinarowbot.output.dir}"/>
+        <javac2 destdir="${fourinarowbot.output.dir}" debug="${compiler.debug}"
+                nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true"
+                executable="${module.jdk.bin.fourinarowbot}/javac">
+            <compilerarg line="${compiler.args.fourinarowbot}"/>
+            <bootclasspath refid="fourinarowbot.module.bootclasspath"/>
+            <classpath refid="fourinarowbot.module.production.classpath"/>
+            <src refid="fourinarowbot.module.sourcepath"/>
+            <patternset refid="excluded.from.compilation.fourinarowbot"/>
+        </javac2>
+
+        <copy todir="${fourinarowbot.output.dir}">
+            <fileset dir="${module.fourinarowbot.basedir}/src">
+                <patternset refid="compiler.resources"/>
+                <type type="file"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="compile.module.fourinarowbot.tests"
+            depends="register.custom.compilers,compile.module.fourinarowbot.production"
+            description="compile module FourInARowBot; test classes" unless="skip.tests"/>
+
+    <target name="clean.module.fourinarowbot" description="cleanup module">
+        <delete dir="${fourinarowbot.output.dir}"/>
+        <delete dir="${fourinarowbot.testoutput.dir}"/>
+    </target>
+
+    <target name="init" description="Build initialization">
+        <!-- Perform any build initialization in this target -->
+    </target>
+
+    <target name="zip.souces" description="Build compressed file for AIGames" depends="build.modules">
+        <zip destfile="${fourinarowbot.bot.zip}" basedir="${fourinarowbot.bot.dir}"/>
+    </target>
+
+    <target name="clean" depends="clean.module.fourinarowbot" description="cleanup all"/>
+
+    <target name="build.modules" depends="init, clean, compile.module.fourinarowbot" description="build all modules"/>
+
+    <target name="all" depends="build.modules" description="build all"/>
+</project>
