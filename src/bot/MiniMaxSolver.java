@@ -33,6 +33,7 @@ public class MiniMaxSolver implements MoveSolver {
     }
 
     /**
+     *
      * @return
      */
 /*
@@ -227,247 +228,27 @@ public class MiniMaxSolver implements MoveSolver {
 
     public int analysis() {
         int whoWon = 0;
+        int scoreSwitch = 1;
 
         if (difficulty == MEDIUM || difficulty == HARD) {
             // Horizontal one moves Player 1
-            for (int col = 0; col <= 3; col++) {
-                for (int row = 0; row < 6; row++) {
-                    if (board[row][col] == 1 && board[row][col + 1] == 0 && board[row][col + 2] == 0 && board[row][col + 3] == 0) {
-                        whoWon = whoWon - 125;
-                    }
-                }
-            }
-
-            for (int col = 0; col <= 3; col++) {
-                for (int row = 0; row < 6; row++) {
-                    if (board[row][col] == 0 && board[row][col + 1] == 1 && board[row][col + 2] == 0 && board[row][col + 3] == 0) {
-                        whoWon = whoWon - 125;
-                    }
-                }
-            }
-
-            for (int col = 0; col <= 3; col++) {
-                for (int row = 0; row < 6; row++) {
-                    if (board[row][col] == 0 && board[row][col + 1] == 0 && board[row][col + 2] == 1 && board[row][col + 3] == 0) {
-                        whoWon = whoWon - 125;
-                    }
-                }
-            }
-
-            for (int col = 0; col <= 3; col++) {
-                for (int row = 0; row < 6; row++) {
-                    if (board[row][col] == 0 && board[row][col + 1] == 0 && board[row][col + 2] == 0 && board[row][col + 3] == 1) {
-                        whoWon = whoWon - 125;
-                    }
-                }
-            }
-            //Horizontal One Moves End Player One
-
-            // Horizontal one moves Player Two
-            for (int col = 0; col <= 3; col++) {
-                for (int row = 0; row < 6; row++) {
-                    if (board[row][col] == 2 && board[row][col + 1] == 0 && board[row][col + 2] == 0 && board[row][col + 3] == 0) {
-                        whoWon = whoWon + 125;
-                    }
-                }
-            }
-
-            for (int col = 0; col <= 3; col++) {
-                for (int row = 0; row < 6; row++) {
-                    if (board[row][col] == 0 && board[row][col + 1] == 2 && board[row][col + 2] == 0 && board[row][col + 3] == 0) {
-                        whoWon = whoWon + 125;
-                    }
-                }
-            }
-
-            for (int col = 0; col <= 3; col++) {
-                for (int row = 0; row < 6; row++) {
-                    if (board[row][col] == 0 && board[row][col + 1] == 0 && board[row][col + 2] == 2 && board[row][col + 3] == 0) {
-                        whoWon = whoWon + 125;
-                    }
-                }
-            }
-
-            for (int col = 0; col <= 3; col++) {
-                for (int row = 0; row < 6; row++) {
-                    if (board[row][col] == 0 && board[row][col + 1] == 0 && board[row][col + 2] == 0 && board[row][col + 3] == 2) {
-                        whoWon = whoWon + 125;
-                    }
-                }
-            }
-            //Horizontal One Moves End Player Two
-
-            //Horizontal Two Moves Player One
-            for (int col = 0; col <= 3; col++) {
-                for (int row = 0; row < 6; row++) {
-                    if (board[row][col] == 1 && board[row][col + 1] == 1 && board[row][col + 2] == 0 && board[row][col + 3] == 0) {
-                        whoWon = whoWon - 250;
-                    }
-                }
-            }
-
-            for (int col = 0; col <= 3; col++) {
-                for (int row = 0; row < 6; row++) {
-                    if (board[row][col] == 0 && board[row][col + 1] == 1 && board[row][col + 2] == 1 && board[row][col + 3] == 0) {
-                        whoWon = whoWon - 250;
-                    }
-                }
-            }
-
-            for (int col = 0; col <= 3; col++) {
-                for (int row = 0; row < 6; row++) {
-                    if (board[row][col] == 0 && board[row][col + 1] == 0 && board[row][col + 2] == 1 && board[row][col + 3] == 1) {
-                        whoWon = whoWon - 250;
-                    }
-                }
-            }
-
-            for (int col = 0; col <= 3; col++) {
-                for (int row = 0; row < 6; row++) {
-                    if (board[row][col] == 1 && board[row][col + 1] == 0 && board[row][col + 2] == 1 && board[row][col + 3] == 0) {
-                        whoWon = whoWon - 250;
-                    }
-                }
-            }
-
-            for (int col = 0; col <= 3; col++) {
-                for (int row = 0; row < 6; row++) {
-                    if (board[row][col] == 0 && board[row][col + 1] == 1 && board[row][col + 2] == 0 && board[row][col + 3] == 1) {
-                        whoWon = whoWon - 250;
-                    }
-                }
-            }
-
-            for (int col = 0; col <= 3; col++) {
-                for (int row = 0; row < 6; row++) {
-                    if (board[row][col] == 1 && board[row][col + 1] == 0 && board[row][col + 2] == 0 && board[row][col + 3] == 1) {
-                        whoWon = whoWon - 250;
-                    }
-                }
-            }
-
-            //Horizontal Two Moves Player One End
-
-            //Horizontal Two Moves Player Two
-            for (int col = 0; col <= 3; col++) {
-                for (int row = 0; row < 6; row++) {
-                    if (board[row][col] == 1 && board[row][col + 1] == 1 && board[row][col + 2] == 0 && board[row][col + 3] == 0) {
-                        whoWon = whoWon + 250;
-                    }
-                }
-            }
-
-            for (int col = 0; col <= 3; col++) {
-                for (int row = 0; row < 6; row++) {
-                    if (board[row][col] == 0 && board[row][col + 1] == 2 && board[row][col + 2] == 2 && board[row][col + 3] == 0) {
-                        whoWon = whoWon + 250;
-                    }
-                }
-            }
-
-            for (int col = 0; col <= 3; col++) {
-                for (int row = 0; row < 6; row++) {
-                    if (board[row][col] == 0 && board[row][col + 1] == 0 && board[row][col + 2] == 2 && board[row][col + 3] == 2) {
-                        whoWon = whoWon + 250;
-                    }
-                }
-            }
-
-            for (int col = 0; col <= 3; col++) {
-                for (int row = 0; row < 6; row++) {
-                    if (board[row][col] == 2 && board[row][col + 1] == 0 && board[row][col + 2] == 2 && board[row][col + 3] == 0) {
-                        whoWon = whoWon + 250;
-                    }
-                }
-            }
-
-            for (int col = 0; col <= 3; col++) {
-                for (int row = 0; row < 6; row++) {
-                    if (board[row][col] == 0 && board[row][col + 1] == 2 && board[row][col + 2] == 0 && board[row][col + 3] == 2) {
-                        whoWon = whoWon + 250;
-                    }
-                }
-            }
-
-            for (int col = 0; col <= 3; col++) {
-                for (int row = 0; row < 6; row++) {
-                    if (board[row][col] == 2 && board[row][col + 1] == 0 && board[row][col + 2] == 0 && board[row][col + 3] == 2) {
-                        whoWon = whoWon + 250;
-                    }
-                }
-            }
-            //Horizontal Two Moves Player Two End
-            if (difficulty == HARD) {
-                //Horizontal Three Moves Player One
-
+            // Pour
+            for (int player = 1; player <= 2; player++) {
+                scoreSwitch *= -1;
                 for (int col = 0; col <= 3; col++) {
                     for (int row = 0; row < 6; row++) {
-                        if (board[row][col] == 1 && board[row][col + 1] == 1 && board[row][col + 2] == 1 && board[row][col + 3] == 0) {
-                            whoWon = whoWon - 1000;
+                        int discCount = 0;
+                        for (int discCol = 0; discCol <= 3; discCol++) {
+                            discCount = board[row][col + discCol] / player;
                         }
-                    }
-                }
-
-                for (int col = 0; col <= 3; col++) {
-                    for (int row = 0; row < 6; row++) {
-                        if (board[row][col] == 0 && board[row][col + 1] == 1 && board[row][col + 2] == 1 && board[row][col + 3] == 1) {
-                            whoWon = whoWon - 1000;
-                        }
-                    }
-                }
-
-                for (int col = 0; col <= 3; col++) {
-                    for (int row = 0; row < 6; row++) {
-                        if (board[row][col] == 1 && board[row][col + 1] == 0 && board[row][col + 2] == 1 && board[row][col + 3] == 1) {
-                            whoWon = whoWon - 1000;
-                        }
-                    }
-                }
-
-                for (int col = 0; col <= 3; col++) {
-                    for (int row = 0; row < 6; row++) {
-                        if (board[row][col] == 1 && board[row][col + 1] == 1 && board[row][col + 2] == 0 && board[row][col + 3] == 1) {
-                            whoWon = whoWon - 1000;
-                        }
-                    }
-                }
-                //Horizontal Three Moves Player One End
-
-                //Horizontal Three Moves Player Two
-
-                for (int col = 0; col <= 3; col++) {
-                    for (int row = 0; row < 6; row++) {
-                        if (board[row][col] == 2 && board[row][col + 1] == 2 && board[row][col + 2] == 2 && board[row][col + 3] == 0) {
-                            whoWon = whoWon + 1000;
-                        }
-                    }
-                }
-
-                for (int col = 0; col <= 3; col++) {
-                    for (int row = 0; row < 6; row++) {
-                        if (board[row][col] == 0 && board[row][col + 1] == 2 && board[row][col + 2] == 2 && board[row][col + 3] == 2) {
-                            whoWon = whoWon + 1000;
-                        }
-                    }
-                }
-
-                for (int col = 0; col <= 3; col++) {
-                    for (int row = 0; row < 6; row++) {
-                        if (board[row][col] == 2 && board[row][col + 1] == 0 && board[row][col + 2] == 2 && board[row][col + 3] == 2) {
-                            whoWon = whoWon + 1000;
-                        }
-                    }
-                }
-
-                for (int col = 0; col <= 3; col++) {
-                    for (int row = 0; row < 6; row++) {
-                        if (board[row][col] == 2 && board[row][col + 1] == 2 && board[row][col + 2] == 0 && board[row][col + 3] == 2) {
-                            whoWon = whoWon + 1000;
-                        }
+                        if (discCount == 3)
+                            discCount = 4; // pour que le multiplicateur donne 1000
+                        whoWon = whoWon + scoreSwitch * discCount * 125;
                     }
                 }
             }
-            //Horizontal Three Moves Player Two End
+
+
         }
 
         return whoWon;
