@@ -27,7 +27,7 @@ public class MiniMaxSolver implements MoveSolver {
         board = field.getBoard();
         height = field.getNrRows();
         width = field.getNrColumns();
-        minimax(0, -1000000, 1000000);
+        minimax(0, Integer.MIN_VALUE, Integer.MAX_VALUE);
         return bestMove[0][1];
 
     }
@@ -153,7 +153,7 @@ public class MiniMaxSolver implements MoveSolver {
     }
 
     public int maxMove(int depth, int alpha, int beta) {
-        int max = -500025;
+        int max = Integer.MIN_VALUE;
         int m = testForWinner();
         if (m != 0) {
             return m;
@@ -168,9 +168,11 @@ public class MiniMaxSolver implements MoveSolver {
             if (lMoves[move][0] == -1 || lMoves[move][1] == -1) {
                 continue;
             } else {
-                board[lMoves[move][0]][lMoves[move][1]] = 2;
-                int temp = minMove(depth + 1, alpha, beta);
-                board[lMoves[move][0]][lMoves[move][1]] = 0;
+                board[lMoves[move][0]][lMoves[move][1]] = 2; // board temporaire avec un essai dans la colonne appropriée
+                int temp = minMove(depth + 1, alpha, beta);  // On regarde le min
+                board[lMoves[move][0]][lMoves[move][1]] = 0; // board replacé
+
+                // si la valeur de
                 if (temp > max) {
                     max = temp;
                     if (depth == 0) {
@@ -190,7 +192,7 @@ public class MiniMaxSolver implements MoveSolver {
     }
 
     public int minMove(int depth, int alpha, int beta) {
-        int min = 500025;
+        int min = Integer.MAX_VALUE;
         int m = testForWinner();
         if (m != 0) {
             return m;
@@ -229,17 +231,80 @@ public class MiniMaxSolver implements MoveSolver {
     public int analysis() {
         int whoWon = 0;
         int scoreSwitch = 1;
+        int player = 1;
 
         if (difficulty == MEDIUM || difficulty == HARD) {
-            // Horizontal one moves Player 1
-            // Pour
-            for (int player = 1; player <= 2; player++) {
-                scoreSwitch *= -1;
+            /*
+             Analyse du board pour voir les points verticaux
+            */
+            for (int col = 0; col < 7; col++) {
+                int row = 5;
+                int discCount = 0;
+                while (row >= 0 && board[row][col] == 0) {
+                    row--;
+                }
+                if (row >= 0) {
+                    player = board[row][col];
+                    if (player == 1)
+                        scoreSwitch = -1;
+                    else
+                        scoreSwitch = 1;
+                    discCount++;
+                    while (--row >= 0 && board[row][col] == player) {
+                        discCount++;
+                    }
+                    if (discCount == 3)
+                        discCount = 4; // pour que le multiplicateur donne 1000
+                    whoWon = whoWon + scoreSwitch * discCount * 125;
+                }
+            }
+
+            for (player = 1; player <= 2; player++) {
+
+                if (player == 1)
+                    scoreSwitch = -1;
+                else
+                    scoreSwitch = 1;
+
+                /*
+                 Analyse du board pour voir les points horizontaux
+                */
                 for (int col = 0; col <= 3; col++) {
                     for (int row = 0; row < 6; row++) {
                         int discCount = 0;
-                        for (int discCol = 0; discCol <= 3; discCol++) {
-                            discCount = board[row][col + discCol] / player;
+                        for (int discCol = 0; discCol <= 3 && (board[row][col + discCol] == player || board[row][col + discCol] == 0); discCol++) {
+                            discCount += board[row][col + discCol] / player;
+                        }
+                        if (discCount == 3)
+                            discCount = 4; // pour que le multiplicateur donne 1000
+                        whoWon = whoWon + scoreSwitch * discCount * 125;
+                    }
+                }
+
+
+            /*
+             Analyse du board pour voir les points diagonaux vers la droite
+            */
+                for (int col = 0; col <= 3; col++) {
+                    for (int row = 0; row <= 2; row++) {
+                        int discCount = 0;
+                        for (int discCol = 0; discCol <= 3 && (board[row + discCol][col + discCol] == player || board[row + discCol][col + discCol] == 0); discCol++) {
+                            discCount += board[row + discCol][col + discCol] / player;
+                        }
+                        if (discCount == 3)
+                            discCount = 4; // pour que le multiplicateur donne 1000
+                        whoWon = whoWon + scoreSwitch * discCount * 125;
+                    }
+                }
+
+            /*
+             Analyse du board pour voir les points diagonaux vers la gauche
+            */
+                for (int col = 6; col >= 3; col--) {
+                    for (int row = 0; row <= 2; row++) {
+                        int discCount = 0;
+                        for (int discCol = 0; discCol <= 3 && (board[row + discCol][col - discCol] == player || board[row + discCol][col - discCol] == 0); discCol++) {
+                            discCount += board[row + discCol][col - discCol] / player;
                         }
                         if (discCount == 3)
                             discCount = 4; // pour que le multiplicateur donne 1000
@@ -248,11 +313,82 @@ public class MiniMaxSolver implements MoveSolver {
                 }
             }
 
-
         }
-
+        //System.err.printf("analysis: whoWon value %d\n", whoWon);
         return whoWon;
     }
+/*
+    //for checking nrOfTokens (win situation: nrOfTokens = 4)
+    private boolean checkDiagonally1(int col, int row, int nrOfTokens)
+    {
+        for (int j = 0; j < nrOfTokens; j++)
+        {
+            int adjacentSameTokens = 0;
+            for (int i = 0; i < nrOfTokens; i++)
+            {
+                if ((col + i - j) >= 0 && (col + i - j) < nbHorzCells
+                        && (row + i - j) >= 1 && (row + i - j) < nbVertCells
+                        && getPlayerOfTokenAt(col + i - j, row + i - j) == getPlayerOfTokenAt(col, row))
+                {
+                    adjacentSameTokens++;
+                }
+            }
+            if (adjacentSameTokens >= nrOfTokens)
+                return true;
+        }
+        return false;
+    }
+
+    private boolean checkDiagonally2(int col, int row, int nrOfTokens)
+    {
+        for (int j = 0; j < nrOfTokens; j++)
+        {
+            int adjacentSameTokens = 0;
+            for (int i = 0; i < nrOfTokens; i++)
+            {
+                if ((col - i + j) >= 0 && (col - i + j) < nbHorzCells
+                        && (row + i - j) >= 1 && (row + i - j) < nbVertCells
+                        && getPlayerOfTokenAt(col - i + j, row + i - j) == getPlayerOfTokenAt(col, row))
+                {
+                    adjacentSameTokens++;
+                }
+            }
+            if (adjacentSameTokens >= nrOfTokens)
+                return true;
+        }
+        return false;
+    }
+
+    private boolean checkHorizontally(int col, int row, int nrOfTokens)
+    {
+        int adjacentSameTokens = 1;
+        int i = 1;
+        while (col - i >= 0 && getPlayerOfTokenAt(col - i, row) == getPlayerOfTokenAt(col, row))
+        {
+            adjacentSameTokens++;
+            i++;
+        }
+        i = 1;
+        while (col + i < nbHorzCells && getPlayerOfTokenAt(col + i, row) == getPlayerOfTokenAt(col, row))
+        {
+            adjacentSameTokens++;
+            i++;
+        }
+        return (adjacentSameTokens >= nrOfTokens);
+    }
+
+    private boolean checkVertically(int col, int row, int nrOfTokens)
+    {
+        int adjacentSameTokens = 1;
+        int i = 1;
+        while (row + i < nbVertCells && getPlayerOfTokenAt(col, row + i) == getPlayerOfTokenAt(col, row))
+        {
+            adjacentSameTokens++;
+            i++;
+        }
+        return (adjacentSameTokens >= nrOfTokens);
+    }
+*/
 
     public int[][] findAllLegalMoves() {
         int[][] legalMove = {
