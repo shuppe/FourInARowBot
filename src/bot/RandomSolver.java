@@ -7,8 +7,14 @@ import java.util.Random;
  */
 public class RandomSolver implements MoveSolver {
 
+    private Field field;
+
+    public RandomSolver(Field field) {
+        this.field = field;
+    }
+
     @Override
-    public int nextMove(int player, int level, Field field) {
+    public int nextMove(int player, int level) {
 
         return new Random().nextInt(field.getNrColumns());
 

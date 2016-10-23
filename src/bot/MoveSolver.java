@@ -15,7 +15,8 @@ public interface MoveSolver {
     static final int MEDIUM = 3;
     static final int HARD = 4;
 
-    int nextMove(int player, int level, Field field);
+
+    int nextMove(int player, int level);
 
 
 

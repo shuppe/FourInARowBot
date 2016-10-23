@@ -27,10 +27,9 @@ package bot;
 
 public class BotStarter {	
      private Field field;
-     private MoveSolver solver;
+
 
     public BotStarter() {
-        this.solver = new MiniMaxSolver();
     }
 
  	public static void main(String[] args) {
@@ -44,8 +43,10 @@ public class BotStarter {
       * @return The column where the turn was made.
       */
      public int makeTurn() {
+         MoveSolver solver;
+         solver = new MiniMaxSolver(field);
 
-         int move = solver.nextMove(0, 0, field);
+         int move = solver.nextMove(0, 0);
          return move;
      }
 
@@ -57,11 +58,4 @@ public class BotStarter {
         this.field = field;
     }
 
-    public MoveSolver getSolver() {
-        return solver;
-    }
-
-    public void setSolver(MoveSolver solver) {
-        this.solver = solver;
-    }
 }

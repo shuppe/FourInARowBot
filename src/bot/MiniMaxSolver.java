@@ -6,26 +6,36 @@ package bot;
  */
 public class MiniMaxSolver implements MoveSolver {
 
+    private Field field;
     private int[][] board;
+    private int height;
+    private int width;
     private int difficulty;
     private int[][] bestMove = {
             {-1, -1}
     };
 
 
-    public MiniMaxSolver() {
+    public MiniMaxSolver(Field field) {
+        this.field = field;
         difficulty = HARD;
     }
 
     @Override
-    public int nextMove(int player, int level, Field field) {
+    public int nextMove(int player, int level) {
 
         board = field.getBoard();
+        height = field.getNrRows();
+        width = field.getNrColumns();
         minimax(0, -1000000, 1000000);
         return bestMove[0][1];
 
     }
 
+    /**
+     * @return
+     */
+/*
     public int[][] getWinningMoves() {
         int[][] winningMoves = new int[4][2];
         //Check for vertical win
@@ -136,7 +146,7 @@ public class MiniMaxSolver implements MoveSolver {
         }
         return winningMoves;
     }
-
+*/
     public int minimax(int depth, int alpha, int beta) {
         return (maxMove(depth, alpha, beta));
     }
@@ -342,7 +352,7 @@ public class MiniMaxSolver implements MoveSolver {
             for (int col = 0; col <= 3; col++) {
                 for (int row = 0; row < 6; row++) {
                     if (board[row][col] == 1 && board[row][col + 1] == 1 && board[row][col + 2] == 0 && board[row][col + 3] == 0) {
-                        whoWon = whoWon - 250;
+                        whoWon = whoWon + 250;
                     }
                 }
             }
@@ -488,6 +498,10 @@ public class MiniMaxSolver implements MoveSolver {
 
 
     /**
+     * testForWinner
+     *
+     *
+     *
      * @return: 0 if no winner, 1 if player wins, 2 if computer wins
      */
     public int testForWinner() {
@@ -538,6 +552,10 @@ public class MiniMaxSolver implements MoveSolver {
         return 0;
     }
 
+    /**
+     *
+     * @return: true if game is a draw
+     */
     public boolean isDraw() {
         for (int row = 0; row < 5; row++) {
             for (int col = 0; col < 7; col++) {
