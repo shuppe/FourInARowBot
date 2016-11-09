@@ -11,9 +11,7 @@ public class MiniMaxSolver implements MoveSolver {
     private int height;
     private int width;
     private int difficulty;
-    private int[][] bestMove = {
-            {-1, -1}
-    };
+    private int bestMove = -1;
 
 
     public MiniMaxSolver(Field field) {
@@ -28,7 +26,7 @@ public class MiniMaxSolver implements MoveSolver {
         height = field.getNrRows();
         width = field.getNrColumns();
         minimax(0, Integer.MIN_VALUE, Integer.MAX_VALUE);
-        return bestMove[0][1];
+        return bestMove;
 
     }
 
@@ -176,8 +174,7 @@ public class MiniMaxSolver implements MoveSolver {
                 if (temp > max) {
                     max = temp;
                     if (depth == 0) {
-                        bestMove[0][0] = lMoves[move][0];
-                        bestMove[0][1] = lMoves[move][1];
+                        bestMove = lMoves[move][1];
                     }
                 }
                 if (temp > alpha) {
@@ -213,8 +210,7 @@ public class MiniMaxSolver implements MoveSolver {
                 if (temp < min) {
                     min = temp;
                     if (depth == 0) {
-                        bestMove[0][0] = lMoves[move][0];
-                        bestMove[0][1] = lMoves[move][1];
+                        bestMove = lMoves[move][1];
                     }
                 }
                 if (temp < beta) {

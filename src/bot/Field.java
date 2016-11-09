@@ -31,6 +31,7 @@ public class Field {
     private int mCols = 0, mRows = 0;
     private String mLastError = "";
     private long moveList = 0;
+    private final static int EMPTY_CELL = 0;
 
     public Field(int columns, int rows) {
         mBoard = new int[columns][rows];
@@ -91,7 +92,7 @@ public class Field {
     public void clearBoard() {
         for (int x = 0; x < mCols; x++) {
             for (int y = 0; y < mRows; y++) {
-                mBoard[x][y] = 0;
+                mBoard[x][y] = EMPTY_CELL;
             }
         }
     }
@@ -107,7 +108,7 @@ public class Field {
         mLastError = "";
         if (column < mCols) {
             for (int y = mRows - 1; y >= 0; y--) { // From bottom column up
-                if (mBoard[column][y] == 0) {
+                if (mBoard[column][y] == EMPTY_CELL) {
                     mBoard[column][y] = disc;
                     mLastColumn = column;
                     addMove(column);
@@ -156,7 +157,7 @@ public class Field {
      * @return : Boolean
      */
     public Boolean isValidMove(int column) {
-        return (mBoard[column][0] == 0);
+        return (mBoard[column][0] == EMPTY_CELL);
     }
 
     /**
@@ -195,12 +196,11 @@ public class Field {
      * @return : Returns true when field is full, otherwise returns false.
      */
     public boolean isFull() {
-        for (int x = 0; x < mCols; x++)
-            //for (int y = 0; y < mRows; y++)
-            if (mBoard[x][0] == 0)             // Just check last row for empty cells
-                return false; // At least one cell is not filled
-        // All cells are filled
-        return true;
+        for (int col = 0; col < mCols; col++)
+            if (mBoard[col][0] == EMPTY_CELL)	// Just check last row for empty cells
+                return false; 					// At least one cell is not filled
+
+        return true;							// No empty cell
     }
 
     /**
@@ -209,7 +209,7 @@ public class Field {
      * @return : Returns true when given column is full, otherwise returns false.
      */
     public boolean isColumnFull(int column) {
-        return (mBoard[column][0] != 0);
+        return (mBoard[column][0] != EMPTY_CELL);
     }
 
     /**
