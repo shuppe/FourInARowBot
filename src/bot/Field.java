@@ -26,12 +26,12 @@ package bot;
  */
 
 public class Field {
+    private final static int EMPTY_CELL = 0;
     public int mLastColumn = 0;
     private int[][] mBoard;
     private int mCols = 0, mRows = 0;
     private String mLastError = "";
     private long moveList = 0;
-    private final static int EMPTY_CELL = 0;
 
     public Field(int columns, int rows) {
         mBoard = new int[columns][rows];
@@ -225,4 +225,118 @@ public class Field {
     public int getNrRows() {
         return mRows;
     }
+
+//TODO: Adapter getWinningMoves à Field
+/*
+    public int[][] getWinningMoves() {
+        int[][] winningMoves = new int[4][2];
+        //Check for vertical win
+        for (int c = 0; c < 7; c++) {
+            for (int r = 5; r >= 3; r--) {
+                if (board[r][c] == 1 && board[r - 1][c] == 1 && board[r - 2][c] == 1 && board[r - 3][c] == 1) {
+                    winningMoves[0][0] = r;
+                    winningMoves[0][1] = c;
+                    winningMoves[1][0] = r - 1;
+                    winningMoves[1][1] = c;
+                    winningMoves[2][0] = r - 2;
+                    winningMoves[2][1] = c;
+                    winningMoves[3][0] = r - 3;
+                    winningMoves[3][1] = c;
+                    return winningMoves;
+                } else if (board[r][c] == 2 && board[r - 1][c] == 2 && board[r - 2][c] == 2 && board[r - 3][c] == 2) {
+                    winningMoves[0][0] = r;
+                    winningMoves[0][1] = c;
+                    winningMoves[1][0] = r - 1;
+                    winningMoves[1][1] = c;
+                    winningMoves[2][0] = r - 2;
+                    winningMoves[2][1] = c;
+                    winningMoves[3][0] = r - 3;
+                    winningMoves[3][1] = c;
+                    return winningMoves;
+                }
+            }
+        }
+
+        //check for horizontal win
+        for (int r = 0; r < 6; r++) {
+            for (int c = 0; c <= 3; c++) {
+                if (board[r][c] == 1 && board[r][c + 1] == 1 && board[r][c + 2] == 1 && board[r][c + 3] == 1) {
+                    winningMoves[0][0] = r;
+                    winningMoves[0][1] = c;
+                    winningMoves[1][0] = r;
+                    winningMoves[1][1] = c + 1;
+                    winningMoves[2][0] = r;
+                    winningMoves[2][1] = c + 2;
+                    winningMoves[3][0] = r;
+                    winningMoves[3][1] = c + 3;
+                    return winningMoves;
+                } else if (board[r][c] == 2 && board[r][c + 1] == 2 && board[r][c + 2] == 2 && board[r][c + 3] == 2) {
+                    winningMoves[0][0] = r;
+                    winningMoves[0][1] = c;
+                    winningMoves[1][0] = r;
+                    winningMoves[1][1] = c + 1;
+                    winningMoves[2][0] = r;
+                    winningMoves[2][1] = c + 2;
+                    winningMoves[3][0] = r;
+                    winningMoves[3][1] = c + 3;
+                    return winningMoves;
+                }
+            }
+        }
+
+        //check for diagonal win
+        for (int r = 0; r <= 2; r++) {
+            for (int c = 0; c < 4; c++) {
+                if (board[r][c] == 1 && board[r + 1][c + 1] == 1 && board[r + 2][c + 2] == 1 && board[r + 3][c + 3] == 1) {
+                    winningMoves[0][0] = r;
+                    winningMoves[0][1] = c;
+                    winningMoves[1][0] = r + 1;
+                    winningMoves[1][1] = c + 1;
+                    winningMoves[2][0] = r + 2;
+                    winningMoves[2][1] = c + 2;
+                    winningMoves[3][0] = r + 3;
+                    winningMoves[3][1] = c + 3;
+                    return winningMoves;
+                } else if (board[r][c] == 2 && board[r + 1][c + 1] == 2 && board[r + 2][c + 2] == 2 && board[r + 3][c + 3] == 2) {
+                    winningMoves[0][0] = r;
+                    winningMoves[0][1] = c;
+                    winningMoves[1][0] = r + 1;
+                    winningMoves[1][1] = c + 1;
+                    winningMoves[2][0] = r + 2;
+                    winningMoves[2][1] = c + 2;
+                    winningMoves[3][0] = r + 3;
+                    winningMoves[3][1] = c + 3;
+                    return winningMoves;
+                }
+            }
+        }
+
+        for (int r = 0; r <= 2; r++) {
+            for (int c = 6; c >= 3; c--) {
+                if (board[r][c] == 1 && board[r + 1][c - 1] == 1 && board[r + 2][c - 2] == 1 && board[r + 3][c - 3] == 1) {
+                    winningMoves[0][0] = r;
+                    winningMoves[0][1] = c;
+                    winningMoves[1][0] = r + 1;
+                    winningMoves[1][1] = c - 1;
+                    winningMoves[2][0] = r + 2;
+                    winningMoves[2][1] = c - 2;
+                    winningMoves[3][0] = r + 3;
+                    winningMoves[3][1] = c - 3;
+                    return winningMoves;
+                } else if (board[r][c] == 2 && board[r + 1][c - 1] == 2 && board[r + 2][c - 2] == 2 && board[r + 3][c - 3] == 2) {
+                    winningMoves[0][0] = r;
+                    winningMoves[0][1] = c;
+                    winningMoves[1][0] = r + 1;
+                    winningMoves[1][1] = c - 1;
+                    winningMoves[2][0] = r + 2;
+                    winningMoves[2][1] = c - 2;
+                    winningMoves[3][0] = r + 3;
+                    winningMoves[3][1] = c - 3;
+                    return winningMoves;
+                }
+            }
+        }
+        return winningMoves;
+    }
+*/
 }
