@@ -284,7 +284,7 @@ public class MiniMaxSolver implements MoveSolver {
                 {-1, -1},
                 {-1, -1}
         };
-
+//TODO: Rendre la méthode findAllLegalMoves plus efficace: seulement la colonne
         for (int c = 0; c < 7; c++) {
             for (int r = 5; r >= 0; r--) {
                 if (board[r][c] == 0) {
@@ -305,6 +305,7 @@ public class MiniMaxSolver implements MoveSolver {
      *
      * @return: 0 if no winner, 1 if player wins, 2 if computer wins
      */
+    //TODO: testForWinner est sûrement à revoir
     public int testForWinner() {
 
         //Check for vertical win
@@ -357,6 +358,7 @@ public class MiniMaxSolver implements MoveSolver {
      *
      * @return: true if game is a draw
      */
+    //TODO: isDraw peut être modifiée pour vérifier le nombre de colonnes ou le nombre de coups joués.
     public boolean isDraw() {
         for (int row = 0; row < 5; row++) {
             for (int col = 0; col < 7; col++) {

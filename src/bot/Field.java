@@ -195,6 +195,7 @@ public class Field {
      *
      * @return : Returns true when field is full, otherwise returns false.
      */
+    //TODO: Pas sûr que la row 0 est celle du haut
     public boolean isFull() {
         for (int col = 0; col < mCols; col++)
             if (mBoard[col][0] == EMPTY_CELL)	// Just check last row for empty cells
